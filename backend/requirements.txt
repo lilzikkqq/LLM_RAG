@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+openai
+chromadb
+python-multipart
+PyPDF2
+python-docx
+tiktoken

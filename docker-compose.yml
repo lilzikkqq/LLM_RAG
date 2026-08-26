@@ -1,0 +1,23 @@
+version: '3.8'    #версия Docker Compose
+
+services: #Главный блок с микросервисами
+  backend:  #Имя первого сервиса
+    build:  ./backend   #Сборка виртуального окружения
+    ports:
+      - "8000:8000"
+    volumes:
+      -  ./backend:/app   #Линкуем backend и app
+      - chroma_data:/app/chroma_db    #Подключаем виртуальное хранилище к Chroma BD
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+  frontend:   #Второй сервис
+    build:  ./frontend    #Путь к Docker файлу
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app
+    depends_on:     #Правило очереди(запустится после Backend)
+      - backend
+
+volumes:
+  chroma_data:
